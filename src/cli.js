@@ -51,7 +51,7 @@ const prompForMissingOptions = async (options) => {
 
   const answers = await inquirer.prompt(questions);
   let params = options.params ? options.params : null;
-  if (!params) { params = answers.params.split(' ') }
+  if (!params.length) { params = answers.params.split(/\s/) }
   return {
     ...options,
     action: options.action || answers.action,
