@@ -45,13 +45,13 @@ const prompForMissingOptions = async (options) => {
       type: 'input',
       name: 'params',
       message: 'Please input parameters for this action, leave blank if not necessary: <params> [<params>...]',
-      default: 0
+      default: '0'
     })
   }
 
   const answers = await inquirer.prompt(questions);
   let params = options.params ? options.params : null;
-  if (!params.length) { params = answers.params.split(/\s/) }
+  if (answers.params.length) { params = answers.params.split(/\s/) }
   return {
     ...options,
     action: options.action || answers.action,
