@@ -1,10 +1,12 @@
 import Domains from '../confs/domains'
 import ExchangeRate from "../services/exchange_rate_service";
 
+const NUMERIC = /^\d+$/;
+
 class Spend {
   constructor(options) {
     this.domainName = options.domain;
-    this.spendings = options.params.filter(n => ['number','float'].includes(typeof(n)));
+    this.spendings = options.params.filter(x => x.toString().match(NUMERIC));
   }
 
   domain() {
@@ -38,7 +40,7 @@ class Spend {
     }
   }
 
-  async cashback() {
+  async process() {
     let amount = 0;
     let exchangeRate = await this.rate();
     if (this.spendings.length && exchangeRate) {

@@ -15,7 +15,7 @@ describe('Signup', () => {
   describe('#cashback', () => {
     it('return 5 SGD cashback', () => {
       const action = new Signup({ domain });
-      expect(action.cashback()).toBe(`Award bonus: 5.00 SGD`);
+      expect(action.process()).toBe(`Award bonus: 5.00 SGD`);
     });
   });
 });

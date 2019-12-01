@@ -68,14 +68,14 @@ describe('Spend', () => {
       const exchangeRate = await action.rate();
       const amount = 100 * .20;
       const expectation = `Award cashback: ${(amount / exchangeRate).toFixed(2)} USD`;
-      const received = await action.cashback();
+      const received = await action.process();
       expect(received).toBe(expectation);
     });
 
     it('return 0 cashback', async () => {
       const action = new Spend({ domain, params: [] });
       const expectation = `Award cashback: 0.00 USD`;
-      const received = await action.cashback();
+      const received = await action.process();
       expect(received).toBe(expectation);
     });
   });

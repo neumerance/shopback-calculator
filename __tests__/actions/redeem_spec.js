@@ -15,7 +15,7 @@ describe('Redeem', () => {
   describe('#cashback', () => {
     it('returns redeem url', () => {
       const action = new Redeem({ domain });
-      expect(action.cashback()).toBe(`Visit https://www.shopback.sg to start earning cashback!`);
+      expect(action.process()).toBe(`Visit https://www.shopback.sg to start earning cashback!`);
     });
   });
 });
