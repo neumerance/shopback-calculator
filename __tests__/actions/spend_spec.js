@@ -4,7 +4,6 @@ describe('Spend', () => {
   let domain = 'www.shopback.sg';
 
   describe('#domain', () => {
-    domain = 'www.shopback.sg';
     it('return domain conf', () => {
       const action = new Spend(domain, []);
       const conf = action.domain();
@@ -68,7 +67,7 @@ describe('Spend', () => {
       const action = new Spend(domain, spendings);
       const exchangeRate = await action.rate();
       const amount = 100 * .20;
-      const expectation = `Award cashback: ${amount / exchangeRate} USD`;
+      const expectation = `Award cashback: ${(amount / exchangeRate).toFixed(2)} USD`;
       const received = await action.cashback();
       expect(received).toBe(expectation);
     });
