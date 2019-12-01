@@ -27,7 +27,7 @@ const prompForMissingOptions = async (options) => {
       type: 'list',
       name: 'action',
       message: 'Please choose an action to perform.',
-      choices: ['signup', 'spend', 'redeem']
+      choices: Object.keys(Actions)
     })
   }
 
@@ -44,17 +44,19 @@ const prompForMissingOptions = async (options) => {
     questions.push({
       type: 'input',
       name: 'params',
-      message: 'Please input parameters for this action: <params> [<params>...]',
+      message: 'Please input parameters for this action, leave blank if not necessary: <params> [<params>...]',
       default: 0
     })
   }
 
   const answers = await inquirer.prompt(questions);
+  let params = options.params ? options.params : null;
+  if (!params) { params = answers.params.split(' ') }
   return {
     ...options,
     action: options.action || answers.action,
     domain: options.domain || answers.domain,
-    params: options.params.length || answers.params.split(' ')
+    params: params
   }
 }
 
