@@ -46,6 +46,7 @@ class Spend {
     if (this.spendings.length && exchangeRate) {
       amount = this.highestSpending() * this.cashbackPercentage();
     }
+    if (!amount) { return 'No cashback' }
     return `Award cashback: ${(amount / exchangeRate).toFixed(2)} USD`
   }
 }

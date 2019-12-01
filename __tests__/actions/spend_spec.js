@@ -74,7 +74,7 @@ describe('Spend', () => {
 
     it('return 0 cashback', async () => {
       const action = new Spend({ domain, params: [] });
-      const expectation = `Award cashback: 0.00 USD`;
+      const expectation = 'No cashback';
       const received = await action.process();
       expect(received).toBe(expectation);
     });
