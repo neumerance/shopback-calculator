@@ -5,7 +5,7 @@ describe('Signup', () => {
 
   describe('#domain', () => {
     it('return domain conf', () => {
-      const action = new Signup(domain);
+      const action = new Signup({ domain });
       const conf = action.domain();
       expect(conf.url).toBe(domain);
       expect(conf.currency).toBe('SGD')
@@ -14,8 +14,8 @@ describe('Signup', () => {
 
   describe('#cashback', () => {
     it('return 5 SGD cashback', () => {
-      const action = new Signup(domain);
-      expect(action.cashback()).toBe(`Award bonus: 5.00 SGD`);
+      const action = new Signup({ domain });
+      expect(action.process()).toBe(`Award bonus: 5.00 SGD`);
     });
   });
 });

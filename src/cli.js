@@ -1,9 +1,10 @@
 import arg from 'arg';
 import inquirer from 'inquirer';
 import ExchangeRate from './services/exchange_rate_service';
-import domain from './confs/domain';
+import domain from './confs/domains';
+import Actions from './actions/index';
 
-function parseArgumentsIntoOptions(rawArgs) {
+const parseArgumentsIntoOptions = (rawArgs) => {
   const args = arg({
     '--action': String,
     '--domain': String,
@@ -19,14 +20,14 @@ function parseArgumentsIntoOptions(rawArgs) {
   }
 }
 
-async function prompForMissingOptions(options) {
+const prompForMissingOptions = async (options) => {
   const questions = [];
   if (!options.action) {
     questions.push({
       type: 'list',
       name: 'action',
       message: 'Please choose an action to perform.',
-      choices: ['signup', 'spend', 'redeem']
+      choices: Object.keys(Actions)
     })
   }
 
@@ -35,19 +36,33 @@ async function prompForMissingOptions(options) {
       type: 'list',
       name: 'domain',
       message: 'Please choose which domain you want to perform an action.',
-      choices: domain.map(function(x) { return x.url })
+      choices: domain.map(x => x.url)
+    })
+  }
+
+  if (!options.params.length) {
+    questions.push({
+      type: 'input',
+      name: 'params',
+      message: 'Please input parameters for this action, leave blank if not necessary: <params> [<params>...]',
+      default: 0
     })
   }
 
   const answers = await inquirer.prompt(questions);
+  let params = options.params ? options.params : null;
+  if (!params) { params = answers.params.split(' ') }
   return {
     ...options,
     action: options.action || answers.action,
-    domain: options.domain || answers.domain
+    domain: options.domain || answers.domain,
+    params: params
   }
 }
 
-export async function cli(args) {
+export const cli = async (args) => {
   let options = parseArgumentsIntoOptions(args);
   options = await prompForMissingOptions(options);
+  const action = new Actions[options.action](options);
+  await console.log(await action.process());
 }
