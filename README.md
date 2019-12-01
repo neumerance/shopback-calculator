@@ -7,6 +7,7 @@ download the bundle file and extract it.
 
 ```cd calc```
 ```npm install```
+```npm link```
 
 ### Run the test
 ```npm run test```
