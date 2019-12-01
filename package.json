@@ -1,0 +1,27 @@
+{
+  "name": "@shopback/shopback-calculator",
+  "version": "1.0.0",
+  "description": "A shopback calculator CLI",
+  "main": "src/index.js",
+  "bin": {
+    "@shopback/shopback-calculator": "bin/shopback-calculator",
+    "shopback-calculator": "bin/shopback-calculator"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "cli",
+    "shopback-calculator"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "arg": "^4.1.2",
+    "esm": "^3.2.25",
+    "inquirer": "^7.0.0"
+  }
+}
