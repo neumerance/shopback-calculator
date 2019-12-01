@@ -5,7 +5,7 @@ describe('Redeem', () => {
 
   describe('#domain', () => {
     it('return domain conf', () => {
-      const action = new Redeem(domain);
+      const action = new Redeem({ domain });
       const conf = action.domain();
       expect(conf.url).toBe(domain);
       expect(conf.currency).toBe('SGD')
@@ -14,7 +14,7 @@ describe('Redeem', () => {
 
   describe('#cashback', () => {
     it('returns redeem url', () => {
-      const action = new Redeem(domain);
+      const action = new Redeem({ domain });
       expect(action.cashback()).toBe(`Visit https://www.shopback.sg to start earning cashback!`);
     });
   });

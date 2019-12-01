@@ -1,8 +1,8 @@
 import Domains from '../confs/domains'
 
 class Redeem {
-  constructor(domainName, spendings) {
-    this.domainName = domainName;
+  constructor(options) {
+    this.domainName = options.domain;
   }
 
   domain() {

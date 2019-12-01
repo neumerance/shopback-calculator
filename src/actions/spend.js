@@ -2,9 +2,9 @@ import Domains from '../confs/domains'
 import ExchangeRate from "../services/exchange_rate_service";
 
 class Spend {
-  constructor(domainName, spendings) {
-    this.domainName = domainName;
-    this.spendings = spendings.filter(n => ['number','float'].includes(typeof(n)));
+  constructor(options) {
+    this.domainName = options.domain;
+    this.spendings = options.params.filter(n => ['number','float'].includes(typeof(n)));
   }
 
   domain() {
