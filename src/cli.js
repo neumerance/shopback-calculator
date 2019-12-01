@@ -1,6 +1,7 @@
 import arg from 'arg';
 import inquirer from 'inquirer';
 import ExchangeRate from './services/exchange_rate_service';
+import domain from './confs/domain';
 
 function parseArgumentsIntoOptions(rawArgs) {
   const args = arg({
@@ -34,15 +35,7 @@ async function prompForMissingOptions(options) {
       type: 'list',
       name: 'domain',
       message: 'Please choose which domain you want to perform an action.',
-      choices: [
-        'www.shopback.sg',
-        'www.shopback.my',
-        'www.shopback.co.id',
-        'www.shopback.com.tw',
-        'www.myshopback.co.th',
-        'www.shopback.com',
-        'www.shopback.com.au'
-      ]
+      choices: domain.map(function(x) { return x.url })
     })
   }
 
@@ -57,5 +50,4 @@ async function prompForMissingOptions(options) {
 export async function cli(args) {
   let options = parseArgumentsIntoOptions(args);
   options = await prompForMissingOptions(options);
-  const rate = await new ExchangeRate().getExchangeRate('SGD', 'PHP');
 }

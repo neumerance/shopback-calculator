@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 
-function buildUrl(url, parameters) {
+const buildUrl = (url, parameters) => {
   let qs = "";
   for (const key in parameters) {
     if (parameters.hasOwnProperty(key)) {
@@ -17,8 +17,8 @@ function buildUrl(url, parameters) {
   return url;
 }
 
-export default function ExchangeRate() {
-  this.getExchangeRate = async function (base, target) {
+class ExchangeRate {
+  async getExchangeRate(base, target) {
     const url = buildUrl('https://api.exchangeratesapi.io/latest', {
       base: base,
       symbols: target
@@ -28,3 +28,5 @@ export default function ExchangeRate() {
     return data;
   }
 }
+
+export default ExchangeRate;
