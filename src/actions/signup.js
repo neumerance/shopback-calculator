@@ -1,5 +1,4 @@
 import Domains from '../confs/domains'
-import ExchangeRate from "../services/exchange_rate_service";
 
 class Signup {
   constructor(domainName, spendings) {

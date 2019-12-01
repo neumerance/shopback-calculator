@@ -1,5 +1,4 @@
 import Signup from '../../src/actions/signup';
-import Spend from "../../src/actions/spend";
 
 describe('Signup', () => {
   let domain = 'www.shopback.sg';
