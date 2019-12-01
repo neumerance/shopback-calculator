@@ -1,5 +1,6 @@
 import arg from 'arg';
 import inquirer from 'inquirer';
+import ExchangeRate from './services/exchange_rate_service';
 
 function parseArgumentsIntoOptions(rawArgs) {
   const args = arg({
@@ -56,5 +57,5 @@ async function prompForMissingOptions(options) {
 export async function cli(args) {
   let options = parseArgumentsIntoOptions(args);
   options = await prompForMissingOptions(options);
-  console.log('options', options);
+  const rate = await new ExchangeRate().getExchangeRate('SGD', 'PHP');
 }
