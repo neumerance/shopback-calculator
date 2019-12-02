@@ -21,6 +21,8 @@ const parseArgumentsIntoOptions = (rawArgs) => {
 }
 
 const prompForMissingOptions = async (options) => {
+  let action;
+  let answers;
   const questions = [];
   if (!options.action) {
     questions.push({
@@ -45,13 +47,17 @@ const prompForMissingOptions = async (options) => {
       type: 'input',
       name: 'params',
       message: 'Please input parameters for this action, leave blank if not necessary: <params> [<params>...]',
-      default: '0'
-    })
+      default: '0',
+      when: (answers) => {
+        action = Actions[answers.action];
+        return action.requireArgs;
+      }
+    });
   }
 
-  const answers = await inquirer.prompt(questions);
-  let params = options.params ? options.params : null;
-  if (answers.params.length) { params = answers.params.split(/\s/) }
+  answers = await inquirer.prompt(questions);
+  let params = options.params ? options.params : [];
+  if (answers.params && answers.params.length) { params = answers.params.split(/\s/) }
   return {
     ...options,
     action: options.action || answers.action,

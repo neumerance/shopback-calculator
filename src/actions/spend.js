@@ -13,22 +13,18 @@ class Spend {
     return Domains.find(x => x.url === this.domainName);
   }
 
-  async rate() {
-    const data = await new ExchangeRate().getExchangeRate('USD', this.domain().currency);
-    return data.rates[this.domain().currency];
-  }
-
   highestSpending() {
+    if (!this.spendings.length) { return 0; }
     return Math.max.apply(null, this.spendings);
   }
 
-  averageSpending() {
+  lowestSpending() {
     if (!this.spendings.length) { return 0; }
-    return this.spendings.reduce((sum, x) => sum + x) / this.spendings.length;
+    return Math.min.apply(null, this.spendings);
   }
 
   cashbackPercentage() {
-    const amount = this.averageSpending();
+    const amount = this.lowestSpending();
     if (amount >= 50) {
       return .20
     } else if (amount >= 20) {
@@ -42,13 +38,15 @@ class Spend {
 
   async process() {
     let amount = 0;
-    let exchangeRate = await this.rate();
-    if (this.spendings.length && exchangeRate) {
+    const currentDomain = this.domain();
+    if (this.spendings.length) {
       amount = this.highestSpending() * this.cashbackPercentage();
     }
     if (!amount) { return 'No cashback' }
-    return `Award cashback: ${(amount / exchangeRate).toFixed(2)} USD`
+    return `Award cashback: ${(amount).toFixed(2)} ${currentDomain.currency}`
   }
 }
+
+Spend.requireArgs = true;
 
 export default Spend;
