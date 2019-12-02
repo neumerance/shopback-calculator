@@ -56,20 +56,27 @@ describe('Spend', () => {
     });
   });
 
-  describe('#cashback', () => {
-    it('returns cashback notice', async () => {
+  describe('#process', () => {
+    it('returns cashback notice', () => {
       const spendings = [50, 100, 30];
       const action = new Spend({ domain, params: spendings });
       const amount = 100 * .15;
       const expectation = `Award cashback: ${(amount).toFixed(2)} SGD`;
-      const received = await action.process();
+      const received = action.process();
       expect(received).toBe(expectation);
     });
 
-    it('return 0 cashback', async () => {
+    it('returns 0 cashback', () => {
       const action = new Spend({ domain, params: [] });
       const expectation = 'No cashback';
-      const received = await action.process();
+      const received = action.process();
+      expect(received).toBe(expectation);
+    });
+
+    it('returns Domain not found', () => {
+      const action = new Spend({ domain: 'www.notexistingdomain.com', params: [] });
+      const expectation = 'Domain not found';
+      const received = action.process();
       expect(received).toBe(expectation);
     });
   });

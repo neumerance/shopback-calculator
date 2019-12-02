@@ -11,9 +11,11 @@ class Signup {
 
   process() {
     const domain = this.domain();
-    if (!domain) { return null; }
+    if (!domain) { return 'Domain not found'; }
     return `Award bonus: ${domain.signup.cashback.toFixed(2)} ${domain.currency}`;
   }
 }
+
+Signup.requireArgs = false;
 
 export default Signup;
