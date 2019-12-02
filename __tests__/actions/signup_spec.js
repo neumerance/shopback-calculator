@@ -12,10 +12,17 @@ describe('Signup', () => {
     });
   });
 
-  describe('#cashback', () => {
+  describe('#process', () => {
     it('return 5 SGD cashback', () => {
       const action = new Signup({ domain });
       expect(action.process()).toBe(`Award bonus: 5.00 SGD`);
+    });
+
+    it('returns Domain not found', () => {
+      const action = new Signup({ domain: 'www.notexistingdomain.com' });
+      const expectation = 'Domain not found';
+      const received = action.process();
+      expect(received).toBe(expectation);
     });
   });
 });

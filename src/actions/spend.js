@@ -36,12 +36,13 @@ class Spend {
     }
   }
 
-  async process() {
+  process() {
     let amount = 0;
     const currentDomain = this.domain();
     if (this.spendings.length) {
       amount = this.highestSpending() * this.cashbackPercentage();
     }
+    if (!currentDomain) { return 'Domain not found' }
     if (!amount) { return 'No cashback' }
     return `Award cashback: ${(amount).toFixed(2)} ${currentDomain.currency}`
   }

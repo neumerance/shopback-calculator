@@ -49,7 +49,7 @@ const prompForMissingOptions = async (options) => {
       message: 'Please input parameters for this action, leave blank if not necessary: <params> [<params>...]',
       default: '0',
       when: (answers) => {
-        action = Actions[answers.action];
+        action = Actions[options.action || answers.action];
         return action.requireArgs;
       }
     });
@@ -70,5 +70,5 @@ export const cli = async (args) => {
   let options = parseArgumentsIntoOptions(args);
   options = await prompForMissingOptions(options);
   const action = new Actions[options.action](options);
-  await console.log(await action.process());
+  await console.log(action.process());
 }

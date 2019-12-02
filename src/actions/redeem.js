@@ -11,9 +11,11 @@ class Redeem {
 
   process() {
     const domain = this.domain();
-    if (!domain) { return null; }
+    if (!domain) { return 'Domain not found'; }
     return `Visit https://${domain.url} to start earning cashback!`;
   }
 }
+
+Redeem.requireArgs = false;
 
 export default Redeem;
