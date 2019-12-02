@@ -12,14 +12,6 @@ describe('Spend', () => {
     });
   });
 
-  describe('#rate', () => {
-    it('returns domain rate', async () => {
-      const action = new Spend({ domain, params: [] });
-      const rate = await action.rate();
-      expect(rate).not.toBeNull();
-    });
-  });
-
   describe('#highestSpending', () => {
     it('returns the highest spending', () => {
       const action = new Spend({ domain, params: [1, 3, 9] });
@@ -32,12 +24,15 @@ describe('Spend', () => {
     });
   });
 
-  describe('#averageSpending', () => {
-    it('returns the average spending', () => {
-      const spendings = [1, 3, 9];
-      const action = new Spend({ domain, params: spendings });
-      const expectation = spendings.reduce((sum, x) => sum + x) / spendings.length;
-      expect(action.averageSpending()).toEqual(expectation);
+  describe('#lowestSpending', () => {
+    it('returns the lowest spending', () => {
+      const action = new Spend({ domain, params: [1, 3, 9] });
+      expect(action.lowestSpending()).toEqual(1);
+    });
+
+    it('ignores the non numeric values', () => {
+      const action = new Spend({ domain, params: [1, 'kamote', 9] });
+      expect(action.lowestSpending()).toEqual(1);
     });
   });
 
@@ -45,13 +40,13 @@ describe('Spend', () => {
     it('returns 20%', () => {
       const spendings = [50, 100, 30];
       const action = new Spend({ domain, params: spendings });
-      expect(action.cashbackPercentage()).toBe(.20);
+      expect(action.cashbackPercentage()).toBe(.15);
     });
 
     it('returns 15%', () => {
       const spendings = [20, 15, 30];
       const action = new Spend({ domain, params: spendings });
-      expect(action.cashbackPercentage()).toBe(.15);
+      expect(action.cashbackPercentage()).toBe(.1);
     });
 
     it('returns 5%', () => {
@@ -65,9 +60,8 @@ describe('Spend', () => {
     it('returns cashback notice', async () => {
       const spendings = [50, 100, 30];
       const action = new Spend({ domain, params: spendings });
-      const exchangeRate = await action.rate();
-      const amount = 100 * .20;
-      const expectation = `Award cashback: ${(amount / exchangeRate).toFixed(2)} USD`;
+      const amount = 100 * .15;
+      const expectation = `Award cashback: ${(amount).toFixed(2)} SGD`;
       const received = await action.process();
       expect(received).toBe(expectation);
     });
